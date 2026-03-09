@@ -96,8 +96,10 @@ def sync_drop_n2s(): st.session_state.drop_slider = st.session_state.drop_num
 
 # --- 3. 側邊欄配置 ---
 st.sidebar.markdown("<h2 style='color:#BC944A; letter-spacing: 2px;'>ESTATE CONFIG</h2>", unsafe_allow_html=True)
-loan = st.sidebar.number_input("總借款金額 (NT$)", value=5179000, step=10000)
-cash = st.sidebar.number_input("預備救火現金 (NT$)", value=550000, step=10000)
+
+# 【已修改】隱藏真實數據，換成乾淨的預設值 100 萬與 10 萬
+loan = st.sidebar.number_input("總借款金額 (NT$)", value=1000000, step=10000)
+cash = st.sidebar.number_input("預備救火現金 (NT$)", value=100000, step=10000)
 
 st.sidebar.markdown("<div style='font-size: 14px; color: #FDFCF0; margin-bottom: 8px; margin-top: 20px; font-weight: bold; letter-spacing: 1px;'>質押利息 (%)</div>", unsafe_allow_html=True)
 c1, c2 = st.sidebar.columns([6, 4])
@@ -153,11 +155,13 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.markdown("### 📋 PORTFOLIO CONFIG / 持股配置")
+
+# 【已修改】隱藏真實庫存，給予一個乾淨的 5 行輸入範本
 init_data = {
-    "代碼": ["0056.TW", "00713.TW", "00878.TW", "00919.TW", "00929.TW", "00939.TW", "00940.TW"],
-    "擔保品(張)": [54, 39, 79, 34, 124, 29, 10],
-    "預備現股(張)": [15.0, 2.0, 18.0, 3.0, 8.0, 0.0, 0.0],
-    "預估殖利率(%)": [6.5, 6.0, 6.0, 8.5, 10.0, 5.5, 6.0] 
+    "代碼": ["0050.TW", "", "", "", ""],
+    "擔保品(張)": [10, 0, 0, 0, 0],
+    "預備現股(張)": [2.0, 0.0, 0.0, 0.0, 0.0],
+    "預估殖利率(%)": [3.5, 0.0, 0.0, 0.0, 0.0] 
 }
 df = pd.DataFrame(init_data)
 edited_df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
