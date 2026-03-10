@@ -121,7 +121,8 @@ c_left, c_right = st.columns(2)
 
 with c_left:
     loan = st.number_input("總借款金額 (NT$)", value=1000000, step=10000)
-    st.markdown("<div style='font-size: 14px; color: #0B3024; margin-bottom: -5px; margin-top: 15px; font-weight: bold; letter-spacing: 1px;'>質押利息 (%)</div>", unsafe_allow_html=True)
+    # 【已修復】增加 margin-bottom 到 15px，讓滑桿數字不會往上疊加到標題
+    st.markdown("<div style='font-size: 14px; color: #0B3024; margin-bottom: 15px; margin-top: 15px; font-weight: bold; letter-spacing: 1px;'>質押利息 (%)</div>", unsafe_allow_html=True)
     ir1, ir2 = st.columns([6, 4])
     with ir1: st.slider("ir_s", min_value=1.0, max_value=10.0, step=0.1, key="ir_slider", on_change=sync_ir_s2n, label_visibility="collapsed")
     with ir2: st.number_input("ir_n", min_value=1.0, max_value=10.0, step=0.1, key="ir_num", on_change=sync_ir_n2s, label_visibility="collapsed")
@@ -129,9 +130,10 @@ with c_left:
 
 with c_right:
     cash = st.number_input("預備救火現金 (NT$)", value=100000, step=10000)
+    # 【已修復】同步增加 margin-bottom 到 15px，確保下方滑桿有呼吸空間
     st.markdown("""
         <div style="background: linear-gradient(90deg, rgba(158, 51, 26, 0.15) 0%, rgba(11, 48, 36, 0) 100%); 
-                    border-left: 4px solid #9E331A; padding: 6px 10px; margin-top: 15px; margin-bottom: 8px;">
+                    border-left: 4px solid #9E331A; padding: 6px 10px; margin-top: 15px; margin-bottom: 15px;">
             <div style="color: #9E331A; font-family: 'Arial', sans-serif; font-size: 0.75rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 2px; text-transform: uppercase;">
                 ⚡ Extreme Stress Test
             </div>
