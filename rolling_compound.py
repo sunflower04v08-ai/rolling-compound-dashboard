@@ -96,7 +96,7 @@ st.title("🛡️ 質押維持率・風控戰情室")
 st.markdown("<h3 style='color:#9E331A; letter-spacing: 1px; font-size: 1.3rem; margin-bottom: 25px;'>揭開 6% 殖利率「安全放大」至 10% 的底層邏輯。</h3>", unsafe_allow_html=True)
 
 st.markdown("""
-    <div style="background-color: #FFFFFF; border-left: 5px solid #BC944A; padding: 20px 25px; margin-bottom: 30px; border-radius: 0 8px 8px 0; box-shadow: 0 4px 15px rgba(11, 48, 36, 0.05);">
+    <div style="background-color: #FFFFFF; border-left: 5px solid #BC944A; padding: 20px 25px; margin-bottom: 40px; border-radius: 0 8px 8px 0; box-shadow: 0 4px 15px rgba(11, 48, 36, 0.05);">
         <h4 style="color: #0B3024; margin-top: 0; margin-bottom: 12px; font-weight: bold; letter-spacing: 1px; font-size: 1.15rem;">
             📖 戰情室指南：掌控風險，放大格局
         </h4>
@@ -113,7 +113,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# --- 4. 核心參數區 (移植到主畫面) ---
+# --- 4. 核心參數區 (對稱雙引擎設計) ---
 st.markdown("### ⚙️ ESTATE CONFIG / 資金與風險設定")
 st.markdown("<div style='margin-bottom: 15px;'></div>", unsafe_allow_html=True)
 
@@ -121,8 +121,20 @@ c_left, c_right = st.columns(2)
 
 with c_left:
     loan = st.number_input("總借款金額 (NT$)", value=1000000, step=10000)
-    # 【已修復】增加 margin-bottom 到 15px，讓滑桿數字不會往上疊加到標題
-    st.markdown("<div style='font-size: 14px; color: #0B3024; margin-bottom: 15px; margin-top: 15px; font-weight: bold; letter-spacing: 1px;'>質押利息 (%)</div>", unsafe_allow_html=True)
+    
+    # 【新增】墨綠色專屬控制台標籤，創造左右對稱感
+    st.markdown("""
+        <div style="background: linear-gradient(90deg, rgba(11, 48, 36, 0.1) 0%, rgba(11, 48, 36, 0) 100%); 
+                    border-left: 4px solid #0B3024; padding: 10px 15px; margin-top: 20px; margin-bottom: 15px; border-radius: 0 4px 4px 0;">
+            <div style="color: #0B3024; font-family: 'Arial', sans-serif; font-size: 0.75rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 4px; text-transform: uppercase;">
+                🏦 Loan Interest
+            </div>
+            <div style="color: #0B3024; font-size: 15px; font-weight: bold; letter-spacing: 1px;">
+                質押利息 (%)
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+    
     ir1, ir2 = st.columns([6, 4])
     with ir1: st.slider("ir_s", min_value=1.0, max_value=10.0, step=0.1, key="ir_slider", on_change=sync_ir_s2n, label_visibility="collapsed")
     with ir2: st.number_input("ir_n", min_value=1.0, max_value=10.0, step=0.1, key="ir_num", on_change=sync_ir_n2s, label_visibility="collapsed")
@@ -130,26 +142,26 @@ with c_left:
 
 with c_right:
     cash = st.number_input("預備救火現金 (NT$)", value=100000, step=10000)
-    # 【已修復】同步增加 margin-bottom 到 15px，確保下方滑桿有呼吸空間
+    
+    # 磚紅色壓力測試標籤 (調整間距與左側完全一致)
     st.markdown("""
         <div style="background: linear-gradient(90deg, rgba(158, 51, 26, 0.15) 0%, rgba(11, 48, 36, 0) 100%); 
-                    border-left: 4px solid #9E331A; padding: 6px 10px; margin-top: 15px; margin-bottom: 15px;">
-            <div style="color: #9E331A; font-family: 'Arial', sans-serif; font-size: 0.75rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 2px; text-transform: uppercase;">
+                    border-left: 4px solid #9E331A; padding: 10px 15px; margin-top: 20px; margin-bottom: 15px; border-radius: 0 4px 4px 0;">
+            <div style="color: #9E331A; font-family: 'Arial', sans-serif; font-size: 0.75rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 4px; text-transform: uppercase;">
                 ⚡ Extreme Stress Test
             </div>
-            <div style="color: #0B3024; font-size: 14px; font-weight: bold; letter-spacing: 1px;">
+            <div style="color: #0B3024; font-size: 15px; font-weight: bold; letter-spacing: 1px;">
                 假設大盤跌幅 (%)
             </div>
         </div>
     """, unsafe_allow_html=True)
+    
     dr1, dr2 = st.columns([6, 4])
     with dr1: st.slider("dr_s", min_value=0, max_value=50, step=1, key="drop_slider", on_change=sync_drop_s2n, label_visibility="collapsed")
     with dr2: st.number_input("dr_n", min_value=0, max_value=50, step=1, key="drop_num", on_change=sync_drop_n2s, label_visibility="collapsed")
     drop_rate = st.session_state.drop_num / 100
 
-st.markdown("---")
-
-
+st.markdown("<br>", unsafe_allow_html=True)
 st.markdown("### 📋 PORTFOLIO CONFIG / 持股配置")
 
 init_data = {
@@ -162,7 +174,7 @@ df = pd.DataFrame(init_data)
 edited_df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
 
 # --- 5. 執行分析 ---
-st.markdown("<div style='margin-bottom: 15px;'></div>", unsafe_allow_html=True)
+st.markdown("<div style='margin-bottom: 20px;'></div>", unsafe_allow_html=True)
 if st.button("🚀 啟動即時風控試算"):
     with st.spinner("🚀 正在批量抓取市場數據，請稍候..."):
         tickers = [str(t).strip() for t in edited_df["代碼"].tolist() if str(t).strip()]
