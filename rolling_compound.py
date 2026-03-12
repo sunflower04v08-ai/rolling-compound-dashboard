@@ -90,7 +90,6 @@ def sync_ir_n2s(): st.session_state.ir_slider = st.session_state.ir_num
 def sync_drop_s2n(): st.session_state.drop_num = st.session_state.drop_slider
 def sync_drop_n2s(): st.session_state.drop_slider = st.session_state.drop_num
 
-
 # --- 3. 主畫面設計 ---
 st.title("🛡️ 質押維持率・風控戰情室")
 st.markdown("<h3 style='color:#9E331A; letter-spacing: 1px; font-size: 1.3rem; margin-bottom: 25px;'>揭開 6% 殖利率「安全放大」至 10% 的底層邏輯。</h3>", unsafe_allow_html=True)
@@ -147,10 +146,8 @@ with c_right:
 
 st.markdown("---")
 
-
 st.markdown("### 📋 PORTFOLIO CONFIG / 持股配置")
 
-# 【已修改】移除 00937B，只保留 0050 乾淨示範
 init_data = {
     "代碼": ["0050", "", "", "", ""],
     "擔保品(張)": [10, 0, 0, 0, 0],
@@ -165,12 +162,10 @@ st.markdown("<div style='margin-bottom: 15px;'></div>", unsafe_allow_html=True)
 if st.button("🚀 啟動即時風控試算"):
     with st.spinner("🚀 正在批量抓取市場數據，請稍候..."):
         
-        # 【Smart Ticker 智能雷達】提取用戶輸入並產生搜尋矩陣
         raw_tickers = [str(t).strip().upper() for t in edited_df["代碼"].tolist() if str(t).strip()]
         search_tickers = []
         for t in raw_tickers:
             if '.' not in t:
-                # 如果使用者沒打後綴，就同時把 .TW(上市) 與 .TWO(上櫃) 加入搜尋清單
                 search_tickers.extend([t + '.TW', t + '.TWO'])
             else:
                 search_tickers.append(t)
@@ -178,7 +173,6 @@ if st.button("🚀 啟動即時風控試算"):
         price_dict = {}
         if search_tickers:
             try:
-                # 一次性發送抓取請求
                 data = yf.download(search_tickers, period="5d", progress=False)['Close']
                 last_row = data.ffill().iloc[-1]
                 if isinstance(last_row, pd.Series):
@@ -197,7 +191,6 @@ if st.button("🚀 啟動即時風控試算"):
             raw_t = str(row["代碼"]).strip().upper()
             if not raw_t: continue
             
-            # 【匹配引擎】嘗試尋找正確的價格
             keys_to_try = [raw_t] if '.' in raw_t else [raw_t + '.TW', raw_t + '.TWO']
             price = 0.0
             
@@ -209,7 +202,7 @@ if st.button("🚀 啟動即時風控試算"):
                     p = float(raw_price)
                     if not pd.isna(p) and p > 0:
                         price = p
-                        break # 找到了正確大於 0 的價格就停止尋找
+                        break
                 except:
                     pass
                 
@@ -263,6 +256,20 @@ if st.button("🚀 啟動即時風控試算"):
     r2_c3.metric("🛡️ 兩者皆投入後", f"{rescue_both_r:.1f}%", f"+{rescue_both_r-crash_r:.1f}% 恢復度", delta_color="normal")
 
     st.write("### 🔍 市場即時明細")
+
+    # 【全新升級】高質感總市值加總橫幅
+    st.markdown(f"""
+        <div style="background: linear-gradient(to right, #FDFCF0, #FFFFFF); border: 2px solid #BC944A; border-radius: 8px; padding: 15px 22px; margin-bottom: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(11, 48, 36, 0.05);">
+            <div style="margin-right: 20px;">
+                <div style="color: #BC944A; font-size: 0.75rem; font-weight: bold; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px;">Real-Time Market Value</div>
+                <div style="color: #0B3024; font-size: 1.1rem; font-weight: 900; letter-spacing: 1px;">🏦 總擔保市值加總</div>
+            </div>
+            <div style="color: #9E331A; font-family: 'Arial', sans-serif; font-size: 1.8rem; font-weight: 900; letter-spacing: 1px; margin-top: 5px;">
+                NT$ {int(total_p_v):,}
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+
     st.dataframe(pd.DataFrame(details), use_container_width=True)
     
     annual_interest = loan * (interest_rate / 100)
