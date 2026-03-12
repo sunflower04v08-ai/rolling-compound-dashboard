@@ -96,7 +96,7 @@ st.title("🛡️ 質押維持率・風控戰情室")
 st.markdown("<h3 style='color:#9E331A; letter-spacing: 1px; font-size: 1.3rem; margin-bottom: 25px;'>揭開 6% 殖利率「安全放大」至 10% 的底層邏輯。</h3>", unsafe_allow_html=True)
 
 st.markdown("""
-    <div style="background-color: #FFFFFF; border-left: 5px solid #BC944A; padding: 20px 25px; margin-bottom: 40px; border-radius: 0 8px 8px 0; box-shadow: 0 4px 15px rgba(11, 48, 36, 0.05);">
+    <div style="background-color: #FFFFFF; border-left: 5px solid #BC944A; padding: 20px 25px; margin-bottom: 30px; border-radius: 0 8px 8px 0; box-shadow: 0 4px 15px rgba(11, 48, 36, 0.05);">
         <h4 style="color: #0B3024; margin-top: 0; margin-bottom: 12px; font-weight: bold; letter-spacing: 1px; font-size: 1.15rem;">
             📖 戰情室指南：掌控風險，放大格局
         </h4>
@@ -108,12 +108,12 @@ st.markdown("""
             <b>【使用說明】</b><br>
             <span style="color: #9E331A; font-weight: bold;">Step 1. 資金配置：</span>在下方輸入您的總借款與備用資金，並設定防禦參數。<br>
             <span style="color: #9E331A; font-weight: bold;">Step 2. 壓力測試：</span>拖曳「大盤跌幅滑桿」，模擬極端市況。<br>
-            <span style="color: #9E331A; font-weight: bold;">Step 3. 啟動防禦：</span>於表格填妥庫存後，點擊最下方紅色按鈕展開風控矩陣。
+            <span style="color: #9E331A; font-weight: bold;">Step 3. 啟動防禦：</span>於表格填妥庫存後（<span style="color: #BC944A; font-weight: bold;">直接輸入數字代碼即可，系統會自動辨識上市櫃</span>），點擊最下方紅色按鈕展開風控矩陣。
         </p>
     </div>
 """, unsafe_allow_html=True)
 
-# --- 4. 核心參數區 (對稱雙引擎設計) ---
+# --- 4. 核心參數區 ---
 st.markdown("### ⚙️ ESTATE CONFIG / 資金與風險設定")
 st.markdown("<div style='margin-bottom: 15px;'></div>", unsafe_allow_html=True)
 
@@ -121,20 +121,7 @@ c_left, c_right = st.columns(2)
 
 with c_left:
     loan = st.number_input("總借款金額 (NT$)", value=1000000, step=10000)
-    
-    # 【新增】墨綠色專屬控制台標籤，創造左右對稱感
-    st.markdown("""
-        <div style="background: linear-gradient(90deg, rgba(11, 48, 36, 0.1) 0%, rgba(11, 48, 36, 0) 100%); 
-                    border-left: 4px solid #0B3024; padding: 10px 15px; margin-top: 20px; margin-bottom: 15px; border-radius: 0 4px 4px 0;">
-            <div style="color: #0B3024; font-family: 'Arial', sans-serif; font-size: 0.75rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 4px; text-transform: uppercase;">
-                🏦 Loan Interest
-            </div>
-            <div style="color: #0B3024; font-size: 15px; font-weight: bold; letter-spacing: 1px;">
-                質押利息 (%)
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
-    
+    st.markdown("<div style='font-size: 14px; color: #0B3024; margin-bottom: 15px; margin-top: 15px; font-weight: bold; letter-spacing: 1px;'>質押利息 (%)</div>", unsafe_allow_html=True)
     ir1, ir2 = st.columns([6, 4])
     with ir1: st.slider("ir_s", min_value=1.0, max_value=10.0, step=0.1, key="ir_slider", on_change=sync_ir_s2n, label_visibility="collapsed")
     with ir2: st.number_input("ir_n", min_value=1.0, max_value=10.0, step=0.1, key="ir_num", on_change=sync_ir_n2s, label_visibility="collapsed")
@@ -142,52 +129,62 @@ with c_left:
 
 with c_right:
     cash = st.number_input("預備救火現金 (NT$)", value=100000, step=10000)
-    
-    # 磚紅色壓力測試標籤 (調整間距與左側完全一致)
     st.markdown("""
         <div style="background: linear-gradient(90deg, rgba(158, 51, 26, 0.15) 0%, rgba(11, 48, 36, 0) 100%); 
-                    border-left: 4px solid #9E331A; padding: 10px 15px; margin-top: 20px; margin-bottom: 15px; border-radius: 0 4px 4px 0;">
-            <div style="color: #9E331A; font-family: 'Arial', sans-serif; font-size: 0.75rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 4px; text-transform: uppercase;">
+                    border-left: 4px solid #9E331A; padding: 6px 10px; margin-top: 15px; margin-bottom: 15px;">
+            <div style="color: #9E331A; font-family: 'Arial', sans-serif; font-size: 0.75rem; font-weight: bold; letter-spacing: 2px; margin-bottom: 2px; text-transform: uppercase;">
                 ⚡ Extreme Stress Test
             </div>
-            <div style="color: #0B3024; font-size: 15px; font-weight: bold; letter-spacing: 1px;">
+            <div style="color: #0B3024; font-size: 14px; font-weight: bold; letter-spacing: 1px;">
                 假設大盤跌幅 (%)
             </div>
         </div>
     """, unsafe_allow_html=True)
-    
     dr1, dr2 = st.columns([6, 4])
     with dr1: st.slider("dr_s", min_value=0, max_value=50, step=1, key="drop_slider", on_change=sync_drop_s2n, label_visibility="collapsed")
     with dr2: st.number_input("dr_n", min_value=0, max_value=50, step=1, key="drop_num", on_change=sync_drop_n2s, label_visibility="collapsed")
     drop_rate = st.session_state.drop_num / 100
 
-st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("---")
+
+
 st.markdown("### 📋 PORTFOLIO CONFIG / 持股配置")
 
+# 【已修改】預設資料移除 .TW，展現新系統的智能辨識能力
 init_data = {
-    "代碼": ["0050.TW", "", "", "", ""],
-    "擔保品(張)": [10, 0, 0, 0, 0],
-    "預備現股(張)": [2.0, 0.0, 0.0, 0.0, 0.0],
-    "預估殖利率(%)": [3.5, 0.0, 0.0, 0.0, 0.0] 
+    "代碼": ["0050", "00937B", "", "", ""],
+    "擔保品(張)": [10, 50, 0, 0, 0],
+    "預備現股(張)": [2.0, 10.0, 0.0, 0.0, 0.0],
+    "預估殖利率(%)": [3.5, 5.8, 0.0, 0.0, 0.0] 
 }
 df = pd.DataFrame(init_data)
 edited_df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
 
 # --- 5. 執行分析 ---
-st.markdown("<div style='margin-bottom: 20px;'></div>", unsafe_allow_html=True)
+st.markdown("<div style='margin-bottom: 15px;'></div>", unsafe_allow_html=True)
 if st.button("🚀 啟動即時風控試算"):
     with st.spinner("🚀 正在批量抓取市場數據，請稍候..."):
-        tickers = [str(t).strip() for t in edited_df["代碼"].tolist() if str(t).strip()]
+        
+        # 【Smart Ticker 智能雷達】提取用戶輸入並產生搜尋矩陣
+        raw_tickers = [str(t).strip().upper() for t in edited_df["代碼"].tolist() if str(t).strip()]
+        search_tickers = []
+        for t in raw_tickers:
+            if '.' not in t:
+                # 如果使用者沒打後綴，就同時把 .TW(上市) 與 .TWO(上櫃) 加入搜尋清單
+                search_tickers.extend([t + '.TW', t + '.TWO'])
+            else:
+                search_tickers.append(t)
         
         price_dict = {}
-        if tickers:
+        if search_tickers:
             try:
-                data = yf.download(tickers, period="5d", progress=False)['Close']
+                # 一次性發送抓取請求
+                data = yf.download(search_tickers, period="5d", progress=False)['Close']
                 last_row = data.ffill().iloc[-1]
                 if isinstance(last_row, pd.Series):
                     price_dict = last_row.to_dict()
-                elif len(tickers) == 1:
-                    price_dict = {tickers[0]: float(last_row)}
+                elif len(search_tickers) == 1:
+                    price_dict = {search_tickers[0]: float(last_row)}
             except Exception as e:
                 pass
 
@@ -197,17 +194,24 @@ if st.button("🚀 啟動即時風控試算"):
         parsed_data = []
         
         for _, row in edited_df.iterrows():
-            ticker = str(row["代碼"]).strip()
-            if not ticker: continue
+            raw_t = str(row["代碼"]).strip().upper()
+            if not raw_t: continue
             
-            try:
-                raw_price = price_dict.get(ticker, 0.0)
-                if isinstance(raw_price, (pd.Series, pd.DataFrame)):
-                    raw_price = raw_price.iloc[0]
-                price = float(raw_price)
-                if pd.isna(price): price = 0.0
-            except:
-                price = 0.0
+            # 【匹配引擎】嘗試尋找正確的價格
+            keys_to_try = [raw_t] if '.' in raw_t else [raw_t + '.TW', raw_t + '.TWO']
+            price = 0.0
+            
+            for k in keys_to_try:
+                try:
+                    raw_price = price_dict.get(k, 0.0)
+                    if isinstance(raw_price, (pd.Series, pd.DataFrame)):
+                        raw_price = raw_price.iloc[0]
+                    p = float(raw_price)
+                    if not pd.isna(p) and p > 0:
+                        price = p
+                        break # 找到了正確大於 0 的價格就停止尋找
+                except:
+                    pass
                 
             p_s = (float(row["擔保品(張)"]) if pd.notnull(row["擔保品(張)"]) else 0) * 1000
             u_s = (float(row["預備現股(張)"]) if pd.notnull(row["預備現股(張)"]) else 0) * 1000
@@ -221,7 +225,7 @@ if st.button("🚀 啟動即時風控試算"):
             yield_rate = float(row["預估殖利率(%)"]) / 100 if pd.notnull(row["預估殖利率(%)"]) else 0.0
             total_gross_dividend += (stock_p_v + stock_u_v) * yield_rate
             
-            parsed_data.append((ticker, price, p_s, u_s))
+            parsed_data.append((raw_t, price, p_s, u_s))
 
         margin_multiplier = (loan * 1.3) / total_p_v if total_p_v > 0 else 0
         details = []
@@ -285,6 +289,5 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 滿版的官方 IG 追蹤按鈕，放在最吸睛的結尾
 st.markdown('<a href="https://www.instagram.com/rolling_compound/" target="_blank" class="ig-button">👉 FOLLOW OFFICIAL IG</a>', unsafe_allow_html=True)
 st.markdown('<div style="text-align: center; font-style: italic; color: #888888; font-size: 0.85rem; margin-top: 10px;">(繼續使用本表，即代表您同意上述聲明)</div>', unsafe_allow_html=True)
