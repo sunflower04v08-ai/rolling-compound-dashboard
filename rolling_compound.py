@@ -94,6 +94,7 @@ def sync_drop_n2s(): st.session_state.drop_slider = st.session_state.drop_num
 st.title("🛡️ 質押維持率・風控戰情室")
 st.markdown("<h3 style='color:#9E331A; letter-spacing: 1px; font-size: 1.3rem; margin-bottom: 25px;'>揭開 6% 殖利率「安全放大」至 10% 的底層邏輯。</h3>", unsafe_allow_html=True)
 
+# 【已修改】將高階資產管理者改為「追求穩健複利的投資人」
 st.markdown("""
     <div style="background-color: #FFFFFF; border-left: 5px solid #BC944A; padding: 20px 25px; margin-bottom: 30px; border-radius: 0 8px 8px 0; box-shadow: 0 4px 15px rgba(11, 48, 36, 0.05);">
         <h4 style="color: #0B3024; margin-top: 0; margin-bottom: 12px; font-weight: bold; letter-spacing: 1px; font-size: 1.15rem;">
@@ -101,7 +102,7 @@ st.markdown("""
         </h4>
         <p style="color: #2D3436; font-size: 1.05rem; line-height: 1.6; margin-bottom: 15px;">
             <b>【系統簡介】</b><br>
-            這是一套專為高階資產管理者打造的「質押風控儀表板」。透過串接即時市場報價，我們能為您的投資組合進行極端壓力測試，精算出崩跌時的維持率底線，並自動評估「預備現金」與「預備現股」的救援效率。讓您在擴張信用的同時，依然擁有 100% 的絕對掌控權。
+            這是一套專為「追求穩健複利的投資人」打造的質押風控儀表板。透過串接即時市場報價，我們能為您的投資組合進行極端壓力測試，精算出崩跌時的維持率底線，並自動評估「預備現金」與「預備現股」的救援效率。讓您在擴張信用的同時，依然擁有 100% 的絕對掌控權。
         </p>
         <p style="color: #2D3436; font-size: 1.05rem; line-height: 1.6; margin-bottom: 0;">
             <b>【使用說明】</b><br>
@@ -149,10 +150,10 @@ st.markdown("---")
 st.markdown("### 📋 PORTFOLIO CONFIG / 持股配置")
 
 init_data = {
-    "代碼": ["0050", "", "", "", ""],
+    "代碼": ["0056", "", "", "", ""],
     "擔保品(張)": [10, 0, 0, 0, 0],
     "預備現股(張)": [2.0, 0.0, 0.0, 0.0, 0.0],
-    "預估殖利率(%)": [3.5, 0.0, 0.0, 0.0, 0.0] 
+    "預估殖利率(%)": [6.5, 0.0, 0.0, 0.0, 0.0] 
 }
 df = pd.DataFrame(init_data)
 edited_df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
@@ -257,7 +258,6 @@ if st.button("🚀 啟動即時風控試算"):
 
     st.write("### 🔍 市場即時明細")
 
-    # 【全新升級】高質感總市值加總橫幅
     st.markdown(f"""
         <div style="background: linear-gradient(to right, #FDFCF0, #FFFFFF); border: 2px solid #BC944A; border-radius: 8px; padding: 15px 22px; margin-bottom: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(11, 48, 36, 0.05);">
             <div style="margin-right: 20px;">
