@@ -94,7 +94,6 @@ def sync_drop_n2s(): st.session_state.drop_slider = st.session_state.drop_num
 st.title("🛡️ 質押維持率・風控戰情室")
 st.markdown("<h3 style='color:#9E331A; letter-spacing: 1px; font-size: 1.3rem; margin-bottom: 25px;'>揭開 6% 殖利率「安全放大」至 10% 的底層邏輯。</h3>", unsafe_allow_html=True)
 
-# 【已修改】將高階資產管理者改為「追求穩健複利的投資人」
 st.markdown("""
     <div style="background-color: #FFFFFF; border-left: 5px solid #BC944A; padding: 20px 25px; margin-bottom: 30px; border-radius: 0 8px 8px 0; box-shadow: 0 4px 15px rgba(11, 48, 36, 0.05);">
         <h4 style="color: #0B3024; margin-top: 0; margin-bottom: 12px; font-weight: bold; letter-spacing: 1px; font-size: 1.15rem;">
@@ -296,5 +295,6 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-st.markdown('<a href="https://www.instagram.com/rolling_compound/" target="_blank" class="ig-button">👉 FOLLOW OFFICIAL IG</a>', unsafe_allow_html=True)
+# 【已修改】底部按鈕已精準綁定你的 IG 連結
+st.markdown('<a href="https://www.instagram.com/rolling.compound?igsh=MTBjMjAwMHlvZWFjaQ%3D%3D&utm_source=qr" target="_blank" class="ig-button">👉 FOLLOW OFFICIAL IG</a>', unsafe_allow_html=True)
 st.markdown('<div style="text-align: center; font-style: italic; color: #888888; font-size: 0.85rem; margin-top: 10px;">(繼續使用本表，即代表您同意上述聲明)</div>', unsafe_allow_html=True)
